@@ -1,10 +1,10 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Icon } from './icons';
-import { Logo } from './ui';
-import { categories as CATS } from '@/lib/data';
+import { Logo, Verdict } from './ui';
+import { categories as CATS, products } from '@/lib/data';
 
 const KEY = 'golabon_liked';
 
@@ -13,27 +13,93 @@ function SearchBar({ big }) {
   const phrases = ['연남 맛집', '성수 카페', '자취템', '방탈출', '감성 숙소', '동네 미용실'];
   const [ph, setPh] = useState(0);
   const [value, setValue] = useState('');
+  const [results, setResults] = useState([]);
+  const [open, setOpen] = useState(false);
+  const boxRef = useRef(null);
+
+  // placeholder 로테이션
   useEffect(() => {
     const t = setInterval(() => setPh((p) => (p + 1) % phrases.length), 2400);
     return () => clearInterval(t);
   }, []);
+
+  // 디바운스(200ms) 클라이언트 검색 — 이름·한줄설명·카테고리·지역, 최대 10개
+  useEffect(() => {
+    const k = value.trim().toLowerCase();
+    if (!k) { setResults([]); return; }
+    const t = setTimeout(() => {
+      setResults(
+        products.filter((p) =>
+          [p.name, p.oneLiner, p.catLabel, p.area].filter(Boolean).some((s) => s.toLowerCase().includes(k))
+        ).slice(0, 10)
+      );
+    }, 200);
+    return () => clearTimeout(t);
+  }, [value]);
+
+  // 바깥 클릭 시 닫기
+  useEffect(() => {
+    const h = (e) => { if (boxRef.current && !boxRef.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', h);
+    return () => document.removeEventListener('mousedown', h);
+  }, []);
+
   const submit = (e) => {
     e.preventDefault();
+    setOpen(false);
     router.push(value.trim() ? `/category/?q=${encodeURIComponent(value.trim())}` : '/category');
   };
+  const go = (id) => { setOpen(false); setValue(''); router.push(`/p/${id}`); };
+
+  const showDrop = open && value.trim().length > 0;
+
   return (
-    <form className="gb-search" onSubmit={submit}
-      style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fff',
-        border: '2px solid var(--ink)', borderRadius: 'var(--r-pill)',
-        padding: big ? '4px 6px 4px 20px' : '3px 4px 3px 16px', boxShadow: 'var(--sh-md)' }}>
-      <Icon name="search" size={big ? 22 : 19} style={{ color: 'var(--gray)', flex: '0 0 auto' }} />
-      <input value={value} onChange={(e) => setValue(e.target.value)} placeholder={`${phrases[ph]} 검색`}
-        style={{ flex: 1, border: 'none', outline: 'none', background: 'transparent',
-          fontSize: big ? 16 : 14.5, fontWeight: 500, color: 'var(--ink)', minWidth: 0 }} />
-      <button type="submit" className="btn btn-green" style={{ padding: big ? '11px 22px' : '8px 16px', fontSize: big ? 15 : 13.5 }}>
-        검색
-      </button>
-    </form>
+    <div ref={boxRef} style={{ position: 'relative', width: '100%' }}>
+      <form className="gb-search" onSubmit={submit}
+        style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fff',
+          border: '2px solid var(--ink)', borderRadius: 'var(--r-pill)',
+          padding: big ? '4px 6px 4px 20px' : '3px 4px 3px 16px', boxShadow: 'var(--sh-md)' }}>
+        <Icon name="search" size={big ? 22 : 19} style={{ color: 'var(--gray)', flex: '0 0 auto' }} />
+        <input value={value} onChange={(e) => { setValue(e.target.value); setOpen(true); }}
+          onFocus={() => setOpen(true)} onKeyDown={(e) => { if (e.key === 'Escape') setOpen(false); }}
+          placeholder={`${phrases[ph]} 검색`} aria-label="검색"
+          style={{ flex: 1, border: 'none', outline: 'none', background: 'transparent',
+            fontSize: big ? 16 : 14.5, fontWeight: 500, color: 'var(--ink)', minWidth: 0 }} />
+        <button type="submit" className="btn btn-green" style={{ padding: big ? '11px 22px' : '8px 16px', fontSize: big ? 15 : 13.5 }}>
+          검색
+        </button>
+      </form>
+
+      {showDrop && (
+        <div style={{ position: 'absolute', top: 'calc(100% + 8px)', left: 0, right: 0, background: '#fff',
+          border: '1px solid var(--line)', borderRadius: 14, boxShadow: 'var(--sh-lg)', overflow: 'hidden', zIndex: 60 }}>
+          {results.length === 0 ? (
+            <div style={{ padding: '18px 16px', fontSize: 13.5, color: 'var(--gray)', textAlign: 'center' }}>
+              검색 결과가 없어요
+            </div>
+          ) : (
+            <>
+              {results.map((p) => (
+                <button key={p.id} type="button" className="gb-ac-item"
+                  onMouseDown={(e) => e.preventDefault()} onClick={() => go(p.id)}
+                  style={{ display: 'flex', alignItems: 'center', gap: 10, width: '100%', textAlign: 'left',
+                    padding: '10px 14px', background: 'transparent', borderBottom: '1px solid var(--line-soft)' }}>
+                  <Verdict v={p.verdict} sm />
+                  <span style={{ minWidth: 0, flex: 1 }}>
+                    <span style={{ display: 'block', fontSize: 14, fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</span>
+                    <span style={{ display: 'block', fontSize: 12, color: 'var(--gray)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.catLabel}{p.area ? ' · ' + p.area : ''}</span>
+                  </span>
+                </button>
+              ))}
+              <button type="button" className="gb-ac-item" onMouseDown={(e) => e.preventDefault()} onClick={submit}
+                style={{ display: 'block', width: '100%', textAlign: 'center', padding: '11px', fontSize: 13, fontWeight: 700, color: 'var(--green-deep)', background: 'var(--cream)' }}>
+                &quot;{value.trim()}&quot; 전체 결과 보기 →
+              </button>
+            </>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -143,7 +209,7 @@ export function Header() {
           </div>
         </div>
       )}
-      <style>{`@keyframes slideIn{from{transform:translateX(100%)}to{transform:none}}`}</style>
+      <style>{`@keyframes slideIn{from{transform:translateX(100%)}to{transform:none}}.gb-ac-item{cursor:pointer;transition:background .12s}.gb-ac-item:hover{background:var(--cream)}`}</style>
     </>
   );
 }
