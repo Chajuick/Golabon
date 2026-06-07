@@ -56,6 +56,27 @@ export function ShopDetail({ p, isPlace, photos = {} }) {
         </div>
       </section>
 
+      {/* 현장 하이라이트 (바베큐·야경 등) — 코랄 톤. highlights 있을 때만 */}
+      {Array.isArray(p.highlights) && p.highlights.map((h, i) => {
+        const imgs = h.imgs || [];
+        return (
+          <section key={i} style={{ marginTop: 18, background: '#FBF2F0', border: '1px solid #F3D9D3', borderRadius: 'var(--r-lg)', padding: '22px 22px 24px' }}>
+            <h3 style={{ fontSize: 19, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ width: 4, height: 18, borderRadius: 2, background: 'var(--coral-deep)' }}></span>
+              {h.title}
+            </h3>
+            <div style={{ display: 'grid', gridTemplateColumns: imgs.length > 1 ? '1fr 1fr' : '1fr', gap: 10 }}>
+              {imgs.map((src, j) => (
+                <div key={j} className="sd-shot" style={{ aspectRatio: imgs.length > 1 ? '4/3' : '16/9' }}>
+                  <Slot src={src} ph="이미지 준비 중" />
+                </div>
+              ))}
+            </div>
+            {h.text && <p style={{ fontSize: 15, lineHeight: 1.8, color: 'var(--ink-soft)', marginTop: 16, textWrap: 'pretty', whiteSpace: 'pre-line' }}>{h.text}</p>}
+          </section>
+        );
+      })}
+
       {/* usage full-bleed — 앰버 톤 */}
       <section style={{ marginTop: 18, background: SECT.feel.bg, border: `1px solid ${SECT.feel.bd}`, borderRadius: 'var(--r-lg)', padding: '22px 22px 24px' }}>
         <h3 style={{ fontSize: 19, marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
