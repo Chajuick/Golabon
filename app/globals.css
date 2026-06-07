@@ -361,7 +361,7 @@ h1,h2,h3,h4 { font-family: var(--font-display); letter-spacing: -0.025em; line-h
 /* numbered point */
 .sd-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .sd-point .num { display: inline-flex; align-items: center; justify-content: center;
-  width: 30px; height: 30px; border-radius: 50%; background: var(--green); color: #fff;
+  width: 30px; height: 30px; flex: 0 0 auto; border-radius: 50%; background: var(--green); color: #fff;
   font-size: 13px; font-weight: 800; font-family: ui-monospace, monospace; }
 .sd-point .ptxt { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; line-height: 1.4; }
 
