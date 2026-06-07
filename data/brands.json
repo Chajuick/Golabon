@@ -1,0 +1,65 @@
+{
+  "coupang": {
+    "name": "쿠팡",
+    "color": "#346DF1",
+    "short": "쿠"
+  },
+  "ali": {
+    "name": "알리",
+    "color": "#FF4747",
+    "short": "알"
+  },
+  "temu": {
+    "name": "테무",
+    "color": "#FF7A00",
+    "short": "테"
+  },
+  "musinsa": {
+    "name": "무신사",
+    "color": "#1A1A1A",
+    "short": "M"
+  },
+  "zigzag": {
+    "name": "지그재그",
+    "color": "#FB2E64",
+    "short": "Z"
+  },
+  "naver": {
+    "name": "네이버",
+    "color": "#03C75A",
+    "short": "N",
+    "symbol": "/symbol/naver.svg"
+  },
+  "catchtable": {
+    "name": "캐치테이블",
+    "color": "#FF5A5F",
+    "short": "캐",
+    "symbol": "/symbol/catchtable.png"
+  },
+  "instagram": {
+    "name": "인스타",
+    "color": "#C0298A",
+    "short": "IG",
+    "symbol": "/symbol/Instagram.png"
+  },
+  "yanolja": {
+    "name": "야놀자",
+    "color": "#FF2D78",
+    "short": "야"
+  },
+  "yeogi": {
+    "name": "여기어때",
+    "color": "#2B5CFF",
+    "short": "여"
+  },
+  "airbnb": {
+    "name": "에어비앤비",
+    "color": "#FF385C",
+    "short": "A"
+  },
+  "kakao": {
+    "name": "카카오",
+    "color": "#3A2E00",
+    "short": "K"
+  }
+}

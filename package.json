@@ -1,0 +1,21 @@
+{
+  "name": "golabon",
+  "version": "0.1.0",
+  "private": true,
+  "description": "골라본 — 직접 써보고 가본 것만. 검증된 리뷰 큐레이션 + 제휴 커머스",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "fetch:naver": "node scripts/fetch-naver-post.mjs"
+  },
+  "dependencies": {
+    "next": "^14.2.35",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "cheerio": "^1.2.0"
+  }
+}

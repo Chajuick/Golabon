@@ -1,0 +1,42 @@
+[
+  {
+    "id": "all",
+    "label": "전체",
+    "icon": "grid"
+  },
+  {
+    "id": "shopping",
+    "label": "생활용품",
+    "icon": "box"
+  },
+  {
+    "id": "fashion",
+    "label": "패션",
+    "icon": "shirt"
+  },
+  {
+    "id": "food",
+    "label": "맛집",
+    "icon": "fork"
+  },
+  {
+    "id": "cafe",
+    "label": "카페",
+    "icon": "cup"
+  },
+  {
+    "id": "play",
+    "label": "놀거리",
+    "icon": "play"
+  },
+  {
+    "id": "stay",
+    "label": "숙소",
+    "icon": "bed"
+  },
+  {
+    "id": "beauty",
+    "label": "뷰티",
+    "icon": "scissors"
+  }
+]

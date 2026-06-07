@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+*.log
+.DS_Store
+.env*.local
+
+# 비공개: 네이버 블로그 원본 스크랩(얼굴·연락처 등 포함) — 절대 커밋 금지.
+# 공개용으로 선별·검증(얼굴 없음)한 이미지만 public/reviews/ 에 둔다.
+material/
+
+# 로컬 도구(bkit) 세션 상태·감사 로그 — 프로젝트 코드 아님
+.bkit/
