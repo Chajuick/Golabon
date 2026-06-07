@@ -118,6 +118,19 @@ export function Logo({ light, size = 22 }) {
   );
 }
 
+/* ---------- 협찬·체험단 고지 ---------- */
+export function SponsorNote({ text, compact }) {
+  return (
+    <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start', background: '#FFF7E6',
+      border: '1px solid #F0CE7A', borderRadius: 'var(--r-md)', padding: compact ? '11px 13px' : '13px 16px' }}>
+      <Icon name="shield" size={17} fill style={{ color: '#C98A12', flex: '0 0 auto', marginTop: 1 }} />
+      <p style={{ fontSize: 12.5, lineHeight: 1.55, color: 'var(--gray)' }}>
+        <b style={{ color: 'var(--ink-soft)' }}>협찬·체험단 고지</b> · {text}
+      </p>
+    </div>
+  );
+}
+
 /* ---------- 제휴 고지 ---------- */
 export function AffiliateNote({ compact }) {
   return (

@@ -57,7 +57,7 @@ export function ProductCard({ p }) {
         <div className="pcard__rrow">
           <Stars r={p.rating} size={13} />
           <span className="pcard__dot">·</span>
-          <span className="pcard__used">{isPlace ? '직접 가봄' : p.usedDays + '일 써봄'}</span>
+          <span className="pcard__used">{isPlace ? (p.sponsored ? '협찬·체험' : '직접 가봄') : p.usedDays + '일 써봄'}</span>
         </div>
         <div className="pcard__desc">{p.oneLiner}</div>
         {priceNode}

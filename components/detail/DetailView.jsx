@@ -2,7 +2,7 @@
 // SPA refs/scroll → 섹션 id + 앵커, go() → next/link, 찜 → LikeButton
 import Link from 'next/link';
 import { Icon } from '../icons';
-import { Verdict, MiniBadge, Stars, ProductImg, AffiliateNote, fmt } from '../ui';
+import { Verdict, MiniBadge, Stars, ProductImg, AffiliateNote, SponsorNote, fmt } from '../ui';
 import { Gallery } from '../Gallery';
 import { LikeButton } from '../LikeButton';
 import { ProductCard } from '../ProductCard';
@@ -53,6 +53,13 @@ export function DetailView({ p, photos }) {
           <Icon name="chevR" size={13} />
           <span style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>{p.name}</span>
         </div>
+
+        {/* 협찬·체험단 고지 (해당 시) */}
+        {p.sponsored && (
+          <div style={{ marginBottom: 18 }}>
+            <SponsorNote text={p.sponsorNote || '업체로부터 제품 또는 서비스를 제공받아 작성한 글입니다. 후기 내용은 실제 방문 기준으로 솔직하게 작성했어요.'} />
+          </div>
+        )}
 
         {/* TOP: gallery + summary */}
         <div className="gb-detail-top" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 36, alignItems: 'start' }}>
